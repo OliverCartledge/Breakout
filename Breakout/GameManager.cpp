@@ -93,6 +93,7 @@ void GameManager::loseLife()
     _ui->lifeLost(_lives);
 
     // TODO screen shake.
+    //_window->setView(sf::View(sf::FloatRect(-10, 0, 1000, 800)));
 }
 
 void GameManager::render()

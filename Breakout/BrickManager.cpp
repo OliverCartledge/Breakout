@@ -2,7 +2,7 @@
 #include "GameManager.h"
 
 BrickManager::BrickManager(sf::RenderWindow* window, GameManager* gameManager)
-    : _window(window), _gameManager(gameManager)
+    : _window(window), _gameManager(gameManager), _particleSystem(1000)
 {
 }
 
@@ -25,9 +25,12 @@ void BrickManager::createBricks(int rows, int cols, float brickWidth, float bric
 
 void BrickManager::render()
 {
+    sf::Time elapsedTime = _frameTime.restart();
     for (auto& brick : _bricks) {
         brick.render(*_window);
     }
+    _particleSystem.update(elapsedTime);
+    _window->draw(_particleSystem);
 }
 
 int BrickManager::checkCollision(sf::CircleShape& ball, sf::Vector2f& direction)
@@ -45,6 +48,9 @@ int BrickManager::checkCollision(sf::CircleShape& ball, sf::Vector2f& direction)
         if (ballY > brickBounds.top && ballY < brickBounds.top + brickBounds.height)
             // unless it's horizontal (collision from side)
             collisionResponse = 1;
+
+        // make the particle system emitter where the brick was destroyed
+        _particleSystem.setEmitter(ballPosition);
 
         // Mark the brick as destroyed (for simplicity, let's just remove it from rendering)
         // In a complete implementation, you would set an _isDestroyed flag or remove it from the vector
