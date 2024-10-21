@@ -13,12 +13,6 @@ GameManager::GameManager(sf::RenderWindow* window)
     _masterText.setPosition(50, 400);
     _masterText.setCharacterSize(48);
     _masterText.setFillColor(sf::Color::Yellow);
-
-
-    _restartText.setFont(_font);
-    _restartText.setPosition(50, 400);
-    _restartText.setCharacterSize(48);
-    _restartText.setFillColor(sf::Color::Yellow);
 }
 
 void GameManager::initialize()
@@ -29,6 +23,7 @@ void GameManager::initialize()
     _ball = new Ball(_window, 400.0f, this); 
     _powerupManager = new PowerupManager(_window, _paddle, _ball);
     _ui = new UI(_window, _lives, this);
+    _lives = 3;
 
     // Create bricks
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
