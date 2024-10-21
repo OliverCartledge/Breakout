@@ -1,3 +1,5 @@
+// example used from https://www.sfml-dev.org/tutorials/2.5/graphics-vertex-array.php
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
@@ -10,7 +12,7 @@ public:
     ParticleSystem(unsigned int count) :
         m_particles(count),
         m_vertices(sf::Points, count),
-        m_lifetime(sf::seconds(3.f)),
+        m_lifetime(sf::seconds(10.f)),
         m_emitter(0.f, 0.f)
     {
     }
@@ -41,6 +43,7 @@ public:
         }
     }
 
+
 private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -65,6 +68,7 @@ private:
 
     void resetParticle(std::size_t index)
     {
+        int i = 0;
         // give a random velocity and lifetime to the particle
         float angle = (std::rand() % 360) * 3.14f / 180.f;
         float speed = (std::rand() % 50) + 50.f;
@@ -73,6 +77,11 @@ private:
 
         // reset the position of the corresponding vertex
         m_vertices[index].position = m_emitter;
+       /* if (i > 5)
+        {
+
+        }
+        i++;*/
     }
 
     std::vector<Particle> m_particles;
