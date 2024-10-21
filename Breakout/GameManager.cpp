@@ -5,7 +5,7 @@
 
 GameManager::GameManager(sf::RenderWindow* window)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
-    _messagingSystem(nullptr), _ui(nullptr), _pause(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
+    _messagingSystem(nullptr), _ui(nullptr), _pause(false), _restart(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
     _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f)
 {
     _font.loadFromFile("font/montS.ttf");
@@ -13,6 +13,12 @@ GameManager::GameManager(sf::RenderWindow* window)
     _masterText.setPosition(50, 400);
     _masterText.setCharacterSize(48);
     _masterText.setFillColor(sf::Color::Yellow);
+
+
+    _restartText.setFont(_font);
+    _restartText.setPosition(50, 400);
+    _restartText.setCharacterSize(48);
+    _restartText.setFillColor(sf::Color::Yellow);
 }
 
 void GameManager::initialize()
@@ -67,6 +73,12 @@ void GameManager::update(float dt)
         return;
     }
 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+    {
+        _restart = true;
+        initialize();
+    }
+
     // timer.
     _time += dt;
 
@@ -103,6 +115,7 @@ void GameManager::render()
     _brickManager->render();
     _powerupManager->render();
     _window->draw(_masterText);
+    _window->draw(_restartText);
     _ui->render();
 }
 

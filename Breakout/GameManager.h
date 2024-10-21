@@ -29,6 +29,7 @@ public:
 
 private:
     bool _pause;
+    bool _restart;
     float _pauseHold;
     float _time;
     float _timeLastPowerupSpawned;
@@ -38,6 +39,7 @@ private:
 
     sf::Font _font;
     sf::Text _masterText;
+    sf::Text _restartText;
 
     sf::RenderWindow* _window;
     Paddle* _paddle;
