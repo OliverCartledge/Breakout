@@ -31,11 +31,14 @@ private:
     bool _pause;
     bool _restart;
     float _pauseHold;
+    float _cameraShakeTime;
     float _time;
     float _timeLastPowerupSpawned;
     int _lives;
     bool _levelComplete;
     std::pair<POWERUPS, float> _powerupInEffect;
+
+    bool _lostLife;
 
     sf::Font _font;
     sf::Text _masterText;

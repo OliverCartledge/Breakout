@@ -3,10 +3,12 @@
 #include "PowerupManager.h"
 #include <iostream>
 
+#include <iomanip>
+
 GameManager::GameManager(sf::RenderWindow* window)
     : _window(window), _paddle(nullptr), _ball(nullptr), _brickManager(nullptr), _powerupManager(nullptr),
-    _messagingSystem(nullptr), _ui(nullptr), _pause(false), _restart(false), _time(0.f), _lives(3), _pauseHold(0.f), _levelComplete(false),
-    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f)
+    _messagingSystem(nullptr), _ui(nullptr), _pause(false), _restart(false), _time(0.f), _lives(3), _pauseHold(0.f), _cameraShakeTime(0.f), _levelComplete(false),
+    _powerupInEffect({ none,0.f }), _timeLastPowerupSpawned(0.f), _lostLife(false)
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
@@ -24,6 +26,8 @@ void GameManager::initialize()
     _powerupManager = new PowerupManager(_window, _paddle, _ball);
     _ui = new UI(_window, _lives, this);
     _lives = 3;
+    _lostLife = false;
+
 
     // Create bricks
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
@@ -31,6 +35,7 @@ void GameManager::initialize()
 
 void GameManager::update(float dt)
 {
+
     _powerupInEffect = _powerupManager->getPowerupInEffect();
     _ui->updatePowerupText(_powerupInEffect);
     _powerupInEffect.second -= dt;
@@ -74,8 +79,25 @@ void GameManager::update(float dt)
         initialize();
     }
 
+    int random = 1 + (rand() % 50) - 25;
+
+    //camera shake 
+    if (_cameraShakeTime > 0.f) _cameraShakeTime -= dt;
+
+    if (_lostLife && _cameraShakeTime <= 0.f) _cameraShakeTime = 0.75f;
+    {
+        //_masterText.setString("shaking for " + std::to_string(_cameraShakeTime));
+        _window->setView(sf::View(sf::FloatRect(random, random, 1000, 800)));
+    }
+    if (_cameraShakeTime <= .5f)
+    {
+        _lostLife = false;
+        //_masterText.setString("");
+        _window->setView(sf::View(sf::FloatRect(0, 0, 1000, 800)));
+    }
+
     // timer.
-    _time += dt;
+    _time += dt; 
 
 
     if (_time > _timeLastPowerupSpawned + POWERUP_FREQUENCY && rand()%700 == 0)      // TODO parameterise
@@ -98,7 +120,7 @@ void GameManager::loseLife()
 {
     _lives--;
     _ui->lifeLost(_lives);
-
+    _lostLife = true;
     // TODO screen shake.
     //_window->setView(sf::View(sf::FloatRect(-10, 0, 1000, 800)));
 }

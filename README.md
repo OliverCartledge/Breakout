@@ -33,3 +33,14 @@ fire ball (green)
 
 # Time Details and Changelist
 <Add information to this section about the time you've taken for this task along with a professional changelist.>
+Hour 1:
+- Fixed compiling error by removing include 
+- Implemented SFML particle system and set up particle to enable on collision
+Hour 2: 
+- Changed speed power up to also include a speed boost for the paddle itself 
+- Added restart functionality
+- Fixed error where lives didn't reinitialize on restart
+Hour 3:
+- Adjusted particle system to begin in the center of the cube hit rather than the impact point
+Hour 4: 
+- Implemented camera shake when player loses a life
