@@ -70,7 +70,7 @@ void GameManager::update(float dt)
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
     {
-        _restart = true;
+        //_restart = true;
         initialize();
     }
 
