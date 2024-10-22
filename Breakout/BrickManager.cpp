@@ -49,8 +49,14 @@ int BrickManager::checkCollision(sf::CircleShape& ball, sf::Vector2f& direction)
             // unless it's horizontal (collision from side)
             collisionResponse = 1;
 
+        sf::Vector2f brickMid;
+        brickMid.x = brickBounds.getSize().x / 2;
+        brickMid.y = brickBounds.getSize().y / 2;
+
+        sf::Vector2f particlePosition = brickBounds.getPosition() + brickMid;
+        _particleSystem.setEmitter(particlePosition);
         // make the particle system emitter where the brick was destroyed
-        _particleSystem.setEmitter(ballPosition);
+       // _particleSystem.setEmitter(ballPosition);
 
         // Mark the brick as destroyed (for simplicity, let's just remove it from rendering)
         // In a complete implementation, you would set an _isDestroyed flag or remove it from the vector
